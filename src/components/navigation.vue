@@ -5,7 +5,7 @@
       <router-link to="cart">Cart</router-link>
       <router-link to="orders">Orders</router-link>
     </div>
-    <h1>The best shop</h1>
+    <h1>My shop</h1>
     <div class="style">
       <router-link v-if="this.$store.state.token" to="logout" @click="logout"><p>Sign Out</p></router-link>
       <router-link v-if="!this.$store.state.token" to="login"><p>Sign in</p></router-link>

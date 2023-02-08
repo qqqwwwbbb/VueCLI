@@ -28,12 +28,12 @@ const routes = [
   },
   {path: '/', name: 'catalog',
     component: function () {
-      return import('@/views/Catalog.vue');
+      return import('@/views/Catalog.vue'); // ПУТИ НА ВЬЮШКИ
     },
   },
   {path: '/signup', name: 'signup',
     component: function () {
-      return import('@/views/SignUp.vue');
+      return import('@/views/SignUp.vue'); // САМА АВТОРИЗАЦИЯ
     },
     beforeEnter: ifNotAuthenticated,
   },
@@ -45,7 +45,7 @@ const routes = [
   },
   {path: '/orders', name: 'orders',
     component: function () {
-      return import('@/views/Orders.vue');
+      return import('@/views/Orders.vue'); // УСЛОВИЕ ЕСЛИ НЕ АВТОРИЗИРОВАН!
     },
     beforeEnter: ifAuthenticated,
   },

@@ -1,27 +1,64 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import {createRouter, createWebHistory} from 'vue-router'
+import store from "@/store";
+
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next('/');
+};
+
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next('/login');
+}
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    path: '/login',
+    name: 'login',
     component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-    }
+      return import('@/views/Login.vue');
+    },
+    beforeEnter: ifNotAuthenticated,
+  },
+  {path: '/', name: 'catalog',
+    component: function () {
+      return import('@/views/Catalog.vue');
+    },
+  },
+  {path: '/signup', name: 'signup',
+    component: function () {
+      return import('@/views/SignUp.vue');
+    },
+    beforeEnter: ifNotAuthenticated,
+  },
+  {path: '/cart', name: 'cart',
+    component: function () {
+      return import('@/views/Cart.vue');
+    },
+    beforeEnter: ifAuthenticated,
+  },
+  {path: '/orders', name: 'orders',
+    component: function () {
+      return import('@/views/Orders.vue');
+    },
+    beforeEnter: ifAuthenticated,
+  },
+  {path: '/logout',  name: 'logout',
+    component: function () {
+      return import('@/views/Logout.vue');
+    },
   }
 ]
 
+
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes
+  history: createWebHistory(process.env.BASE_URL), routes
 })
 
 export default router

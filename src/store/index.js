@@ -1,7 +1,7 @@
 import { createStore } from 'vuex';
 import axios from "axios";
-import cart from "@/views/Cart";
 import router from "@/router";
+import cart from "@/views/Cart";
 
 export default createStore({
   state: {
@@ -25,12 +25,9 @@ export default createStore({
       try {
         await axios.post(this.state.API + 'login', user).then((response) => {
           commit('AUTH_SUCCESS', response.data.data.user_token)
-          this.state.token = response.data.data.token
-          localStorage.setItem('MyAppToken', this.state.token)
           axios.defaults.headers = {Authorisation: 'Bearer' + this.state.token}
           localStorage.setItem('MyAppToken', this.state.token)
           console.log('success')
-          console.log(this.state.token)
           router.push('/')
         })
       } catch (e) {
@@ -45,9 +42,7 @@ export default createStore({
       try {
         await axios.post(this.state.API + 'signup', user).then((response) => {
           commit('AUTH_SUCCESS', response.data.data.user_token)
-          this.state.token = response.data.data.token
           localStorage.setItem('MyAppToken', this.state.token)
-          axios.defaults.headers = {Authorisation: 'Bearer' + this.state.token}
           router.push('/')
         })
       } catch (e) {
@@ -57,7 +52,7 @@ export default createStore({
       }
     },
     async SIGN_OUT(){
-      this.state.token = '';
+      this.state.token = ''
       localStorage.removeItem('MyAppToken')
       await axios.get(this.state.API + 'logout')
     },

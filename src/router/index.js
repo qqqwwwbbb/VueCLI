@@ -18,22 +18,20 @@ const ifAuthenticated = (to, from, next) => {
 }
 
 const routes = [
-  {
-    path: '/login',
-    name: 'login',
+  {path: '/', name: 'catalog',
+    component: function () {
+      return import('@/views/Catalog.vue');
+    },
+  },
+  {path: '/login', name: 'login',
     component: function () {
       return import('@/views/Login.vue');
     },
     beforeEnter: ifNotAuthenticated,
   },
-  {path: '/', name: 'catalog',
-    component: function () {
-      return import('@/views/Catalog.vue'); // ПУТИ НА ВЬЮШКИ
-    },
-  },
   {path: '/signup', name: 'signup',
     component: function () {
-      return import('@/views/SignUp.vue'); // САМА АВТОРИЗАЦИЯ
+      return import('@/views/SignUp.vue');
     },
     beforeEnter: ifNotAuthenticated,
   },
@@ -45,14 +43,14 @@ const routes = [
   },
   {path: '/orders', name: 'orders',
     component: function () {
-      return import('@/views/Orders.vue'); // УСЛОВИЕ ЕСЛИ НЕ АВТОРИЗИРОВАН!
+      return import('@/views/Orders.vue');
     },
     beforeEnter: ifAuthenticated,
   },
   {path: '/logout',  name: 'logout',
     component: function () {
       return import('@/views/Logout.vue');
-    },
+    }
   }
 ]
 

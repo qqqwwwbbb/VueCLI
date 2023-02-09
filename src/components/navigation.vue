@@ -21,7 +21,7 @@ export default {
     logout(){
       this.$store.dispatch('SIGN_OUT')
     }
-  }
+  },
 }
 </script>
 

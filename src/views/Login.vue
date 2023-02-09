@@ -1,11 +1,11 @@
 <template>
-  <form class="login" @submit.prevent="login">
+  <form className="login" @submit.prevent="login">
     <h2>Sign in</h2>
     <label>E-mail</label>
-    <input type="text" required v-model="email" />
+    <input type="text" required v-model="email"/>
     <label>Password</label>
     <input type="password" required v-model="password">
-    <hr />
+    <hr/>
     <input type="submit" value="Login"/>
   </form>
 </template>
@@ -18,11 +18,11 @@ export default {
       password: this.password,
     };
   },
-  methods:{
+  methods: {
     login() {
       const userData = {
-        email: JSON.parse(JSON.stringify(this.email)),
-        password: JSON.parse(JSON.stringify(this.password)),
+        email: this.email,
+        password: this.password,
       };
       this.$store
           .dispatch('SIGN_IN', userData)
@@ -39,9 +39,10 @@ export default {
   padding: 10px;
   margin: 0 auto;
 }
+
 .login input,
 button {
-  border: 1px solid black;
+  border: 1px solid #170000;
   border-radius: 5px;
 }
 </style>

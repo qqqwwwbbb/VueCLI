@@ -36,12 +36,12 @@ button {
   border: none;
   height: 35px;
   width: 95px;
-  background-color: #27103f;
+  background-color: #9153d9;
   font-size: 15px;
 }
 button:hover {
   cursor: pointer;
-  background-color: #514d8d;
+  background-color: #674d8d;
 }
 .price {
   display: flex;

@@ -1,53 +1,52 @@
 <template>
-  <div id='header'>
-    <div class="style">
-      <router-link to="/">Catalog</router-link>
-      <router-link to="cart">Cart <span></span></router-link>
-      <router-link to="orders">Orders</router-link>
-    </div>
-    <h1>My shop</h1>
-    <div class="style">
-      <router-link v-if="this.$store.state.token" to="logout" @click="logout"><p>Sign Out</p></router-link>
-      <router-link v-if="!this.$store.state.token" to="login"><p>Sign in</p></router-link>
-      <router-link v-if="!this.$store.state.token" to="signup"><p>Sign up</p></router-link>
+  <div class="header">
+    <h1>My practice shop!</h1>
+    <div class="nav">
+      <router-link to="catalog"><p>Catalog</p></router-link>
+      <router-link to="cart"><p>Cart ({{ this.$store.state.cartCount }})</p></router-link>
+      <router-link to="orders"><p>Orders</p></router-link>
+      <router-link v-if="!this.$store.getters.isAuthenticated" to="login"><p>Sign In</p></router-link>
+      <router-link v-if="!this.$store.getters.isAuthenticated" to="register"><p>Sign Up</p></router-link>
+      <router-link v-if="this.$store.getters.isAuthenticated" to="logout" @click="logout"><p>Logout...</p></router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "navigation",
+  name: "header",
   methods: {
-    logout(){
-      this.$store.dispatch('SIGN_OUT')
-    }
-  },
+    logout() {
+      this.$store.dispatch('logout')
+    },
+  }
 }
 </script>
 
 <style scoped>
-#header {
-  display: flex;
-  align-items: center;
+.header {
+  display: inline-block;
+  margin-left: 20px;
   justify-content: space-around;
-  background-color: rgba(183, 135, 255, 0.94);
-}
-.style {
-  position: relative;
   align-items: center;
-  width: 300px;
-  height: 60px;
-  border-radius: 15px;
-  border: none;
-  font-size: 24px;
+}
+.header > h1 {
+ text-align: center;
+}
+
+.nav {
+  width: 500px;
   display: flex;
+  justify-content: space-around;
 }
-.style > a {
+
+a {
+  font-weight: bold;
+  color: #213c4f;
   text-decoration: none;
-  margin: 10px;
-  color: midnightblue;
 }
-.style > a:hover {
-  color: white;
+
+a.router-link-exact-active {
+  color: rgb(57, 36, 248);
 }
 </style>

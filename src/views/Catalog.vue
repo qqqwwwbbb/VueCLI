@@ -1,33 +1,29 @@
 <template>
-  <h2>Catalog!</h2>
-  <div>
-    <Product v-for="prod in products.data" v-bind:key="prod.id" :prod-data="prod"></Product>
-  </div>
+  <card-product :allProducts="allProducts"/>
 </template>
 
 <script>
+import CardProduct from "@/components/Product.vue";
 import axios from "axios";
-import Product from "@/components/Product";
+
 export default {
-  name: "Catalog",
-  components: {Product},
-  data(){
-    return{
-      products: [],
+  name: "catalog",
+  components: {
+    CardProduct
+  },
+  data() {
+    return {
+      allProducts: []
     }
   },
-  mounted(){
-    axios.get(this.$store.state.API + 'products').then((response)=>{
-      this.products = response.data
+  mounted() {
+    axios.get(this.$store.state.API + 'products').then((response) => {
+      this.allProducts = response.data
     })
   }
 }
 </script>
 
 <style scoped>
-div {
-  display: inline-block;
-}
-product {
-}
+
 </style>

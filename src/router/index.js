@@ -1,62 +1,71 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import store from "@/store";
+import CartView from '../views/Cart.vue'
+import OrdersView from '../views/Orders.vue'
+import RegisterView from '../views/SignUp.vue'
+import LoginView from '../views/Login.vue'
+import CatalogView from '../views/Catalog.vue'
+
+import store from '../store'
 
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
-    next();
-    return;
+    next()
+    return
   }
-  next('/');
-};
+  next('/')
+}
 
 const ifAuthenticated = (to, from, next) => {
   if (store.getters.isAuthenticated) {
-    next();
-    return;
+    next()
+    return
   }
-  next('/login');
+  next('/login')
 }
 
 const routes = [
-  {path: '/', name: 'catalog',
-    component: function () {
-      return import('@/views/Catalog.vue');
-    },
+  {
+    path: '',
+    redirect: {name: 'catalog'}
   },
-  {path: '/login', name: 'login',
-    component: function () {
-      return import('@/views/Login.vue');
-    },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: CartView,
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/catalog',
+    name: 'catalog',
+    component: CatalogView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+    beforeEnter: ifNotAuthenticated
+  },
+  {
+    path: '/orders',
+    name: 'orders',
+    component: OrdersView,
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: RegisterView,
     beforeEnter: ifNotAuthenticated,
   },
-  {path: '/signup', name: 'signup',
-    component: function () {
-      return import('@/views/SignUp.vue');
-    },
-    beforeEnter: ifNotAuthenticated,
+  {
+    path: '/logout',
+    redirect: {name: 'login'}
   },
-  {path: '/cart', name: 'cart',
-    component: function () {
-      return import('@/views/Cart.vue');
-    },
-    beforeEnter: ifAuthenticated,
-  },
-  {path: '/orders', name: 'orders',
-    component: function () {
-      return import('@/views/Orders.vue');
-    },
-    beforeEnter: ifAuthenticated,
-  },
-  {path: '/logout',  name: 'logout',
-    component: function () {
-      return import('@/views/Logout.vue');
-    }
-  }
 ]
 
-
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL), routes
+const index = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes
 })
 
-export default router
+export default index

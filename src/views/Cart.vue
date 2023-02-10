@@ -1,52 +1,56 @@
 <template>
-  <h2>Cart</h2>
   <div>
-    <Product v-for="prod in cartArr" v-bind:key="prod.id" :prod-data="prod">
-      {{ prod.price }}
-      <h2 @click="deleteCard(prod)" class="cross">+</h2>
-      <p>{{ fullSum }}</p>
-      <button @click="toOrder">Кнопка</button>
-    </Product>
+    <h2>Elements in the cart: {{ $store.state.cartCount }}</h2>
+  </div>
+  <div v-if="this.$store.state.cart.length > 0">
+    <div class="card" v-for="card in this.$store.state.cart">
+      <div>
+        <p>{{ card.name }}</p>
+        <div>
+          <p>{{ card.price }} &#8381;</p>
+          <h2 @click="deleteCard(card)" class="cross">+</h2>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div>
+      <p>{{ fullSum }} &#8381;</p>
+      <button @click="toOrder">Make your order</button>
+    </div>
+  </div>
+
+  <div v-else>
+    <p>
+      Your cart is kinda empty...
+    </p>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import Product from "@/components/Product";
-import router from "@/router";
-import cart from "@/views/Cart";
 export default {
-  name: "Catalog",
-  components: {Product},
-  data(){
-    return{
-      cartArr: [],
+  name: "CartView",
+  data() {
+    return {
+      sum: 0
     }
   },
   methods: {
-    deleteCard(prodData) {
-      this.$store.dispatch('from_cart', prodData.id)
+    deleteCard(card) {
+      this.$store.dispatch('from_cart', card.id)
       this.$store.dispatch('get_cart')
     },
     toOrder() {
       this.$store.dispatch('to_order')
     },
   },
-  mounted(){ // api!
-    axios.get(this.$store.state.API + `cart`, {
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-        'Authorization': 'Bearer ' + this.$store.state.token
-      }
-    }).then((response) => {
-      this.cartArr = response.data.data
-    })
+  mounted() {
+    this.$store.dispatch('get_cart')
   },
   computed: {
     fullSum() {
       this.sum = 0
-      this.$store.state.cart.forEach(prodData => {
-        this.sum+=prodData.price
+      this.$store.state.cart.forEach(card => {
+        this.sum+=card.price
       })
       return this.sum
     }
@@ -55,14 +59,30 @@ export default {
 </script>
 
 <style scoped>
-div {
-  display: inline-block;
+.card {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+.card > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+  align-items: center;
+}
+
+.card > div > div {
+  width: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cross {
   transform: rotate(45deg);
   cursor: pointer;
 }
+
 button {
   color: #2c3e50;
   width: 200px;
@@ -71,7 +91,7 @@ button {
   font-size: 16px;
   border: 2px solid #2c3e50;
   border-radius: 5px;
-  background: rgba(234, 36, 248, 0.8);
+  background: rgba(116, 134, 227, 0.8);
   cursor: pointer;
 }
 </style>

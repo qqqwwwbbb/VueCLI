@@ -1,28 +1,55 @@
-import {createStore} from 'vuex';
+import { createStore } from 'vuex';
 import axios from "axios";
 import router from "@/router";
-import cart from "@/views/Cart";
-import product from "@/components/Product";
 
 export default createStore({
   state: {
-    token: localStorage.getItem('MyAppToken'),
+    token: localStorage.getItem('token'),
+    type_token: 'Bearer ',
     API: 'https://jurapro.bhuser.ru/api-shop/',
+    cart: [],
+    orders: [],
+    cartCount: 0
   },
   getters: {
     isAuthenticated: (state) => !!state.token,
-
   },
   mutations: {
-    AUTH_SUCCESS: (state, token) => {
-      state.token = token;
+    auth_success: (state, token) => {
+      state.token = token
     },
-    AUTH_ERROR: (state) => {
+    auth_error: (state) => {
       state.token = '';
+    },
+    cart_update: (state, data) => {
+      state.cart = data
+      state.cartCount = data.length
     },
     cart_delete: (state) => {
       state.cart = []
       state.cartCount = 0
+    },
+    order_update: (state, data) => {
+      state.orders = data
+    },
+  },
+  actions: {
+    async to_cart({commit}, product_id) {
+      await axios.post(this.state.API + 'cart/' + product_id, {}, {headers: {Authorization: this.state.type_token + this.state.token}})
+    },
+    async get_cart({commit}) {
+      await axios.get(this.state.API + 'cart', {headers: {Authorization: this.state.type_token + this.state.token}})
+          .then((response) => {
+            commit('cart_update', response.data.data)
+          })
+    },
+    async from_cart({commit}, product_id) {
+      await axios.delete(this.state.API + 'cart/' + product_id, {headers: {Authorization: this.state.type_token + this.state.token}})
+    },
+    async get_order({commit}){
+      await axios.get(this.state.API + 'order', {headers: {Authorization: this.state.type_token + this.state.token}}).then((response)=>{
+        commit('order_update', response.data.data)
+      })
     },
     async to_order({commit}){
       await axios.post(this.state.API + 'order', {}, {headers: {Authorization: this.state.type_token + this.state.token}})
@@ -30,63 +57,36 @@ export default createStore({
             commit('cart_delete', response.data.data)
           })
     },
-  },
-  actions: {
-    async SIGN_IN({commit}, user) {
-      console.log(commit)
+    async login({commit}, user) {
       try {
         await axios.post(this.state.API + 'login', user).then((response) => {
-          commit('AUTH_SUCCESS', response.data.data.user_token)
-          if (this.state.token) {
-            axios.defaults.headers.common["Authorization"] = 'Bearer ' + this.state.token
-          } else {
-            axios.defaults.headers.common["Authorization"] = ''
-          }
-          localStorage.setItem('MyAppToken', this.state.token)
-
+          this.state.token = response.data.data.user_token
+          localStorage.setItem('token', this.state.token)
+          axios.defaults.headers = {Authorisation: this.state.type_token + this.state.token}
           router.push('/')
         })
-      } catch (e) {
-        console.log('fail(')
-        console.log(e)
-        commit('AUTH_ERROR');
-        localStorage.removeItem('MyAppToken');
+      } catch (error) {
+        commit('auth_error');
+        localStorage.removeItem('token');
       }
     },
-    async SIGN_UP({commit}, user) {
-      console.log(commit)
+    async register({commit}, user) {
       try {
         await axios.post(this.state.API + 'signup', user).then((response) => {
-          commit('AUTH_SUCCESS', response.data.data.user_token)
-          localStorage.setItem('MyAppToken', this.state.token)
+          this.state.token = response.data.data.token
+          localStorage.setItem('token', this.state.token)
+          axios.defaults.headers = {Authorisation: this.state.type_token + this.state.token}
           router.push('/')
         })
-      } catch (e) {
-        console.log(e)
-        commit('AUTH_ERROR');
-        localStorage.removeItem('MyAppToken');
+      } catch (error) {
+        commit('auth_error');
+        localStorage.removeItem('token');
       }
     },
-    async SIGN_OUT() {
-      this.state.token = ''
-      localStorage.removeItem('MyAppToken')
-      await axios.post(this.state.API + `logout`, {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Authorization': 'Bearer ' + this.state.token
-        }
-      })
-    },
-    async ADD_TO_CART({commit}, product) {
-      await axios.post(this.state.API + `cart/${product}`, product, {
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-          'Authorization': 'Bearer ' + this.state.token
-        }
-      }).then((response) => {
-        router.push('/')
-      })
+    async logout() {
+      localStorage.removeItem('token', this.state.token)
+      this.state.token = '';
+      await axios.get(this.state.API + 'logout')
     }
   },
-  modules: {}
 })

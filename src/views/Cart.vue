@@ -26,7 +26,7 @@
       <br>
       Add something in the catalog
     </p>
-    <router-link to="catalog"><p>Catalog</p></router-link>
+    <button @click="$router.push('catalog')">Home Page </button>
   </div>
 </template>
 

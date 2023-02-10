@@ -1,4 +1,4 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
   <form @submit.prevent="register">
     <h2>Register</h2>
     <br>
@@ -15,6 +15,7 @@
       <input id="password" v-model="password" type="password" placeholder="password">
     </div>
     <input type="submit" value="Register!">
+    <button @click="$router.push('catalog')">Home Page </button>
   </form>
 </template>
 
@@ -70,6 +71,29 @@ form > div > input:focus {
 }
 
 form > input {
+  margin-right: 20px;
+  width: 200px;
+  height: 35px;
+  border: 2px solid #2c3e50;
+  border-radius: 5px;
+  background: rgba(116, 134, 227, 0.8);
+  cursor: pointer;
+}
+form > div > button {
+  margin: 10px 0;
+  width: 250px;
+  height: 30px;
+  padding-left: 10px;
+  border: 2px solid #2c3e50;
+  border-radius: 5px;
+}
+
+form > div > button:focus {
+  outline: none;
+  border: 2px solid rgb(43, 36, 248);
+}
+
+form > button {
   margin: 20px 0;
   width: 200px;
   height: 35px;

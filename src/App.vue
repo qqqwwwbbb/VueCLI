@@ -9,7 +9,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  background-color: #dec8ff;
   color: #2c3e50;
   font-size: 19px;
 }

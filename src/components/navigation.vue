@@ -30,7 +30,7 @@ export default {
   justify-content: space-around;
   align-items: center;
   margin-top: 15px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 .header > h1 {
  text-align: center;
@@ -47,7 +47,7 @@ export default {
 }
 
 .nav {
-  margin-top: 45px;
+  margin-top: 90px;
   font-size: 21px;
   margin-bottom: 20px;
   width: 500px;
@@ -67,6 +67,7 @@ a.router-link-exact-active {
 </style>
 <style>
 *{
+  background-color: #dec8ff;
   margin: 0;
   padding: 0;
 }

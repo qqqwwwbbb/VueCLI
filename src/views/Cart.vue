@@ -17,6 +17,15 @@ export default {
       cartArr: [],
     }
   },
+  methods: {
+    deleteCard(prodData) {
+      this.$store.dispatch('from_cart', prodData.id)
+      this.$store.dispatch('get_cart')
+    },
+    toOrder() {
+      this.$store.dispatch('to_order')
+    },
+  },
   mounted(){ // api!
     axios.get(this.$store.state.API + `cart`, {
       headers: {
@@ -26,6 +35,15 @@ export default {
     }).then((response) => {
       this.cartArr = response.data.data
     })
+  },
+  computed: {
+    fullSum() {
+      this.sum = 0
+      this.$store.state.cart.forEach(prodData => {
+        this.sum+=prodData.price
+      })
+      return this.sum
+    }
   }
 }
 </script>

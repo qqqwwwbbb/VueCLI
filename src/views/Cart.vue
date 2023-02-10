@@ -22,13 +22,18 @@
   <div v-else>
     <p>
       Your cart is kinda empty...
+      <br>
+      Add something in the catalog
     </p>
+    <router-link to="catalog"><p>Catalog</p></router-link>
   </div>
 </template>
 
 <script>
 export default {
   name: "CartView",
+  components: {},
+
   data() {
     return {
       sum: 0

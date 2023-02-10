@@ -29,12 +29,27 @@ export default {
   margin-left: 20px;
   justify-content: space-around;
   align-items: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
 }
 .header > h1 {
  text-align: center;
+  animation: pulsate 0.11s ease-in-out infinite alternate;
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #945fff,
+      0 0 82px #5e00ff,
+      0 0 92px #5e00ff,
+      0 0 102px #5e00ff,
+      0 0 151px #5e00ff;
 }
 
 .nav {
+  margin-top: 45px;
+  font-size: 21px;
+  margin-bottom: 20px;
   width: 500px;
   display: flex;
   justify-content: space-around;
@@ -48,5 +63,11 @@ a {
 
 a.router-link-exact-active {
   color: rgb(57, 36, 248);
+}
+</style>
+<style>
+*{
+  margin: 0;
+  padding: 0;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div>
     <h2>Elements in the cart: {{ $store.state.cartCount }}</h2>
+    <br>
   </div>
   <div v-if="this.$store.state.cart.length > 0">
     <div class="card" v-for="card in this.$store.state.cart">

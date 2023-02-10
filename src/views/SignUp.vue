@@ -1,6 +1,7 @@
 <template>
   <form @submit.prevent="register">
     <h2>Register</h2>
+    <br>
     <div>
       <label htmlFor="lastName">Last name</label>
       <input id="lastName" v-model="fio" type="text" placeholder="last name">

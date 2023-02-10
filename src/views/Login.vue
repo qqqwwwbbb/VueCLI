@@ -2,6 +2,7 @@
   <form @submit.prevent="login">
     <h2>Sign in</h2>
     <p>@ for email is required!*</p>
+    <br>
     <div>
       <label for="username">Email</label>
       <input id="username" v-model="email" type="text" placeholder="i_love_django_@gmail.com">
@@ -47,7 +48,7 @@ form > div {
 
 form > div > input {
   margin: 10px 0;
-  width: 250px;
+  width: 240px;
   height: 30px;
   padding-left: 10px;
   border: 2px solid #2c3e50;

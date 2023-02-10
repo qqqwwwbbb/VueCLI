@@ -2,6 +2,7 @@
   <div v-if="this.$store.state.orders.length > 0">
   <div class="card" v-for="card in $store.state.orders">
     <h1>Orders page!</h1>
+    <br>
     <div>
       <p>Your oder #{{ card.id }}</p>
       <div>

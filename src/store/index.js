@@ -2,7 +2,7 @@ import { createStore } from 'vuex';
 import axios from "axios";
 import router from "@/router";
 
-export default createStore({
+export default createStore({ // хранилище
   state: {
     token: localStorage.getItem('token'),
     type_token: 'Bearer ',
@@ -11,10 +11,10 @@ export default createStore({
     orders: [],
     cartCount: 0
   },
-  getters: {
+  getters: { // вычисления
     isAuthenticated: (state) => !!state.token,
   },
-  mutations: {
+  mutations: { // мутации (имеют функцию и апгрейд в ней)
     auth_success: (state, token) => {
       state.token = token
     },
@@ -33,7 +33,7 @@ export default createStore({
       state.orders = data
     },
   },
-  actions: {
+  actions: { // действия инициируют мутации типа .then
     async to_cart({commit}, product_id) {
       await axios.post(this.state.API + 'cart/' + product_id, {}, {headers: {Authorization: this.state.type_token + this.state.token}})
     },
@@ -70,7 +70,7 @@ export default createStore({
         localStorage.removeItem('token');
       }
     },
-    async register({commit}, user) {
+    async register({commit}, user) { // кэтчим ошибку если регистрация неверная
       try {
         await axios.post(this.state.API + 'signup', user).then((response) => {
           this.state.token = response.data.data.token

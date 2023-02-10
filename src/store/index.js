@@ -82,6 +82,7 @@ export default createStore({
         commit('auth_error');
         localStorage.removeItem('token');
         console.log("error! enter the test data --> name: abc, password: 123123, email: awf@mail.ru")
+        alert("Enter a correct data (you can view it in F12 console)");
       }
     },
     async logout() {
